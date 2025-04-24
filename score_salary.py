@@ -4,7 +4,7 @@ import requests
 from pathlib import Path
 
 def download_model():
-    url = 'https://github.com/mjammu/Score-Salary/blob/main/salary_prediction_model_2025.pkl'
+    url = 'https://github.com/mjammu/Score-Salary/blob/main/salary_prediction_model_2025.pkl'
     local_filename = url.split('/')[-1]
     response = requests.get(url)
     open(local_filename, 'wb').write(response.content)
