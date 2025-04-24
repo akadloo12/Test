@@ -43,4 +43,69 @@ education = st.selectbox("Highest Level of Education", [
 ])
 
 years_coding = st.selectbox("Years of Coding Experience", [
-    "I have never written code",
+    "I have never written code", "< 1 years", "1-3 years", "3-5 years",
+    "5-10 years", "10-20 years", "20+ years"
+])
+
+country = st.selectbox("Country", [
+    "United States", "India", "China", "Germany", "United Kingdom", "Canada",
+    "France", "Brazil", "Other"
+])
+
+# Language checkboxes
+languages = ['Python', 'R', 'SQL', 'C', 'C#', 'C++', 'Java', 'Javascript', 'Bash', 'PHP', 'MATLAB', 'Julia', 'Go', 'None', 'Other']
+language_inputs = [1 if st.checkbox(lang) else 0 for lang in languages]
+
+# Mapping for education
+education_map = {
+    "I never completed any formal education": 0,
+    "Primary/elementary school": 0,
+    "Some college/university study without earning a bachelor’s degree": 1,
+    "Associate degree": 1,
+    "Bachelor’s degree": 2,
+    "Master’s degree": 3,
+    "Doctoral degree": 4,
+    "Professional degree": 4
+}
+edu_val = education_map[education]
+
+# Mapping for coding experience
+coding_map = {
+    "I have never written code": 0,
+    "< 1 years": 0.5,
+    "1-3 years": 2,
+    "3-5 years": 4,
+    "5-10 years": 7.5,
+    "10-20 years": 15,
+    "20+ years": 25
+}
+code_val = coding_map[years_coding]
+
+# Manual country one-hot encoding (example with a few + 'Other')
+country_features = {
+    "United States": 0,
+    "India": 0,
+    "China": 0,
+    "Germany": 0,
+    "United Kingdom": 0,
+    "Canada": 0,
+    "France": 0,
+    "Brazil": 0,
+    "Country_Other": 0
+}
+if country in country_features:
+    country_features[country] = 1
+else:
+    country_features["Country_Other"] = 1
+
+# Final input array
+input_data = [edu_val, code_val] + language_inputs + list(country_features.values())
+
+# Optional: scale input if you used a scaler during training
+# numeric_data = scaler.transform([[edu_val, code_val]])
+# input_data[:2] = numeric_data[0]
+
+# Predict
+if st.button("Predict Salary"):
+    salary = model.predict([input_data])[0]
+    st.success(f"💰 Estimated Salary: ${salary:,.2f} per year")
