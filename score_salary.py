@@ -1,5 +1,9 @@
 import requests
 from pathlib import Path
+import streamlit as st
+import pickle
+import numpy as np
+
 
 def download_model():
     url = 'https://github.com/akadloo12/Test/blob/main/salary_prediction_model_2025.pkl'
@@ -20,11 +24,6 @@ def is_model_found(file):
 model_filename = "salary_prediction_model_2025.pkl"
 is_model_found(model_filename)
 model = pd.read_pickle(model_filename)
-
-
-import streamlit as st
-import pickle
-import numpy as np
 
 # Load the saved model
 model = pickle.load(open('salary_prediction_model_2025.pkl', 'rb'))
