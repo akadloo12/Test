@@ -4,8 +4,18 @@ import streamlit as st
 import pickle
 import numpy as np
 import pandas as pd
-import sklearn
 
+
+
+import sys
+import subprocess
+
+
+try:
+    import sklearn
+except ImportError:
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "scikit-learn"])
+    import sklearn
 
 
 def download_model():
